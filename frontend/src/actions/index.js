@@ -63,6 +63,7 @@ export const deletePost = (postId, call) => {
     }
 }
 
+
 export const voteOnPost = (postId, vote) => dispatch => {
     return API.voteOnPost(postId, vote).then((post) => {
         dispatch({ type: VOTE_ON_POST, post, vote })

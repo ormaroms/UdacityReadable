@@ -27,7 +27,7 @@ class MainPage extends Component {
                     <button onClick={() => sortPost("voteScore")}>VoteScore</button>
                 </div>
                 {posts && posts.map((post) => (
-                    <Post post={post} key={post.id} />
+                    <Post post={post} key={post.id} isRaedMoreBtn={true}/>
                 ))}
             </div>
         )

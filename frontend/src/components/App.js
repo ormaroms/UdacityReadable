@@ -8,6 +8,7 @@ import MainPage from './MainPage'
 import PostList from './PostList'
 import EditPost from './EditPost'
 import AddPost from './AddPost'
+import PostView from './PostView'
 import '../App.css';
 
 class App extends Component {
@@ -28,7 +29,8 @@ class App extends Component {
           <Route exact path="/" component={MainPage}/>
            <Route exact path="/add" component={AddPost}/> 
            <Route exact path="/:category" component={PostList}/> 
-           <Route exact path="/:category/:id/edit" component={EditPost}/>  
+           <Route exact path="/:category/:id/edit" component={EditPost}/> 
+           <Route exact path="/:category/:id" component={PostView}/>   
       </Switch>
       </BrowserRouter>
       </Provider>

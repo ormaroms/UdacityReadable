@@ -20,8 +20,6 @@ class PostList extends Component {
         if (posts != null && category != null)
             var filteredPosts = getCategoryPosts(posts, category)
 
-        //sortPost("voteScore")
-
         return (
             <div>
                 <AllCategories />
@@ -33,7 +31,7 @@ class PostList extends Component {
                 <h4>{category} posts:</h4>
 
                 {filteredPosts && filteredPosts.map((post) => (
-                    <Post post={post} key={post.id} />
+                    <Post post={post} key={post.id} isRaedMoreBtn= {true}/>
                 ))}
             </div>
         )

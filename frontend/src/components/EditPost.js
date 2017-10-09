@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getCategories, getPosts, deletePost, getPostComments, voteOnPost, editPost, deleteComment, voteOnComment, addComment } from '../actions'
-import Comments from './Comments'
-import AddComment from './AddComment'
 import AllCategories from './AllCategories'
 
 class EditPost extends Component {
@@ -46,12 +44,12 @@ class EditPost extends Component {
     }
 
     handleSubmit(event) {
-        this.props.editPost({ title: this.state.title, body: this.state.body, id: this.props.match.params.id },() => this.props.history.push('/'))
+        this.props.editPost({ title: this.state.title, body: this.state.body, id: this.props.match.params.id },() => this.props.history.push(`/${this.props.match.params.category}/${this.props.match.params.id}`))
         event.preventDefault()
     }
 
     render() {
-        const { posts, match, deletePost, voteOnPost, getPosts } = this.props
+        const { posts, match, getPosts } = this.props
         const postId = (match && match.params && match.params.id)
             ? match.params.id
             : null
@@ -94,15 +92,8 @@ class EditPost extends Component {
                                 </div>
                             </div>
                             <i className="material-icons">grade</i>{post.voteScore}
-
-                            <span className="likes" onClick={() => voteOnPost(post.id, "upVote")}><i className="material-icons">thumb_up</i></span>
-                            <span className="likes" onClick={() => voteOnPost(post.id, "downVote")}><i className="material-icons">thumb_down</i></span>
-                            <span className="likes" onClick={() => deletePost(post.id, () => this.props.history.push('/'))}><i className="material-icons">delete_forever</i></span>
                             <div className="row"> <input className="waves-effect waves-light btn-large light-blue accent-4" type="submit" value="Submit" /></div>
                         </form>
-                        <div><h4>Comments</h4></div>
-                        <Comments postId={postId} />
-                        <AddComment parentId={postId} />
                     </div>
                 )}
             </div>
@@ -114,8 +105,8 @@ function getPostById(posts, postId) {
     return posts.filter((post) => post.id === postId)[0]
 }
 
-function mapStateToProps({ posts, categories, comments }) {
-    return { posts, categories, comments }
+function mapStateToProps({ posts, categories }) {
+    return { posts, categories }
 }
 
 export default connect(mapStateToProps, { getCategories, getPosts, getPostComments, deletePost, voteOnPost, editPost, deleteComment, voteOnComment, addComment })(EditPost)
