@@ -82,8 +82,6 @@ export const deleteComment = (commentId) => dispatch => {
     })
 }
 
-export const sortPost = (sortKey) => {
-    return dispatch => {
-        dispatch({ type: SORT_POST, sortKey })
-    }
+export function sortPost  (sortKey) {
+         return {type: SORT_POST, sortKey }
 }

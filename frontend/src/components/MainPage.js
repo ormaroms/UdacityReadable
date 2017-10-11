@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategories, getPosts, getPostComments, sortPost } from '../actions'
+import { sortPost } from '../actions'
 import Post from './Post'
 import AllCategories from './AllCategories'
 
 class MainPage extends Component {
     componentDidMount() {
-        const { getCategories, getPosts, sortPost, posts } = this.props
-        getCategories()
-        getPosts()
+        const { sort, posts } = this.props
         if (posts != null) {
-            sortPost("voteScore")
+            sort("voteScore")
         }
         
     }
 
     render() {
-        const { posts, sortPost } = this.props
+        const { posts, sortPost, sort } = this.props
 
         return (
             <div>
                 <AllCategories />
                 <div>
                     <p>Sort</p>
-                    <button onClick={() => sortPost("timestamp")}>Time</button>
-                    <button onClick={() => sortPost("voteScore")}>VoteScore</button>
+                    <button onClick={() => sort("timestamp")}>Time</button>
+                    <button onClick={() => sort("voteScore")}>VoteScore</button>
                 </div>
                 {posts && posts.map((post) => (
                     <Post post={post} key={post.id} isRaedMoreBtn={true}/>
@@ -38,4 +36,11 @@ function mapStateToProps({ posts, categories }) {
     return { posts, categories }
 }
 
-export default connect(mapStateToProps, { getCategories, getPosts, getPostComments, sortPost })(MainPage)
+function mapDispatchToProps (dispatch) {
+
+    return {
+        sort: (data) => dispatch(sortPost(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

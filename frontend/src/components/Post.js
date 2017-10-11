@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategories, getPosts, voteOnPost, deletePost } from '../actions'
+import { getCategories, getPosts, voteOnPost, deletePost, getPostComments } from '../actions'
 import { Link } from 'react-router-dom'
 
 class Post extends Component {
@@ -12,6 +12,7 @@ class Post extends Component {
 
   render() {
     const { post, voteOnPost, deletePost, isRaedMoreBtn } = this.props
+
     return (
       <div>
 
@@ -24,13 +25,13 @@ class Post extends Component {
                 <p className="blue-grey-text text-blue-grey lighten-5">{post.author}</p>
                 <p>{post.body}</p>
                 <i className="material-icons">grade</i>{post.voteScore}
-
+                <span className="likes" onClick={() => voteOnPost(post.id, "upVote")}><i className="material-icons">thumb_up</i></span>
+                <span className="likes" onClick={() => voteOnPost(post.id, "downVote")}><i className="material-icons">thumb_down</i></span>
                 {isRaedMoreBtn ?
-                  <div><Link to={`/${post.category}/${post.id}`}> <button className="btn-floating halfway-fab btn-large waves-effect waves-light light-blue accent-4">Read More</button></Link></div> : <div>
-                  <span className="likes" onClick={() => voteOnPost(post.id, "upVote")}><i className="material-icons">thumb_up</i></span>
-                  <span className="likes" onClick={() => voteOnPost(post.id, "downVote")}><i className="material-icons">thumb_down</i></span>
-                  <span className="likes" onClick={() => deletePost(post.id, () => this.props.history.push(`/${this.props.match.params.category}`))}><i className="material-icons">delete_forever</i></span>
-                  <Link to={`/${post.category}/${post.id}/edit`}><button onClick={this.changeEditMode} className="btn-floating halfway-fab btn-large waves-effect waves-light light-blue accent-4"><i className="material-icons">edit</i></button></Link></div>}
+                  <div><p>Comments for this post: {post.countComments}</p>
+                    <Link to={`/${post.category}/${post.id}`}> <button className="btn-floating halfway-fab btn-large waves-effect waves-light light-blue accent-4">Read More</button></Link></div> : <div>
+                    <span className="likes" onClick={() => deletePost(post.id, () => this.props.history.push(`/${this.props.match.params.category}`))}><i className="material-icons">delete_forever</i></span>
+                    <Link to={`/${post.category}/${post.id}/edit`}><button onClick={this.changeEditMode} className="btn-floating halfway-fab btn-large waves-effect waves-light light-blue accent-4"><i className="material-icons">edit</i></button></Link></div>}
 
               </div>
             </div>
@@ -46,4 +47,4 @@ function mapStateToProps({ posts, comments }) {
   return { posts, comments }
 }
 
-export default connect(mapStateToProps, { getCategories, getPosts, voteOnPost, deletePost })(Post)
+export default connect(mapStateToProps, { getCategories, getPosts, voteOnPost, deletePost, getPostComments })(Post)

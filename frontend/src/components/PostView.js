@@ -31,7 +31,7 @@ class PostView extends Component {
             <div>
                 <AllCategories />
                 {post != null && (<div><Post post={post} key={post.id} isRaedMoreBtn={false} history={this.props.history} match={this.props.match} />
-                    <div><h4>Comments : {comments!= null && comments.length}</h4></div>
+                    <div><h4>Comments : {post.countComments}</h4></div>
                     
                 <div>
                     {comments != null && postId != null && posts != null && comments.map((comment) => (

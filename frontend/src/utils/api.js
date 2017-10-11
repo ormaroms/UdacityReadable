@@ -12,13 +12,27 @@ export function header() {
 export function getPosts () { 
     return fetch("http://localhost:3001/posts", {method: "GET", headers: header()})
         .then(res => res.json())
-        .then(data => data)
+        .then(data => addCommentsToPosts(data))
 }
 
 export function getPostComments (postId) {
     return fetch(`http://localhost:3001/posts/${postId}/comments`, {method: "GET", headers: header()})
     .then(res => res.json())
     .then(data => data)
+}
+
+export function addCommentsToPosts(posts)
+{
+  debugger;
+  const getComments = posts.map(post => getPostComments(post.id))
+  return Promise.all(getComments).then(comments => {
+    const fullPost = posts.map((post, index) => ({
+      ...post,
+      countComments: comments[index].length
+    }))
+
+    return fullPost
+  })
 }
 
 export function getCategories () {

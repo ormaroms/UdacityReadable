@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCategories, getPosts, getPostComments, deletePost, voteOnPost, deleteComment, voteOnComment, sortPost } from '../actions'
+import { sortPost } from '../actions'
 import Post from './Post'
 import AllCategories from './AllCategories'
 
 class PostList extends Component {
-    componentDidMount() {
-        const { getPosts } = this.props
-        getPosts()
-    }
 
     render() {
-        const { posts, match } = this.props
+        const { posts, match, sort } = this.props
 
         const category = (match && match.params && match.params.category)
             ? match.params.category
@@ -25,8 +21,8 @@ class PostList extends Component {
                 <AllCategories />
                 <div>
                     <p>Sort</p>
-                    <button onClick={() => sortPost("timestamp")}>Time</button>
-                    <button onClick={() => sortPost("voteScore")}>VoteScore</button>
+                    <button onClick={() => sort("timestamp")}>Time</button>
+                    <button onClick={() => sort("voteScore")}>VoteScore</button>
                 </div>
                 <h4>{category} posts:</h4>
 
@@ -46,4 +42,10 @@ function mapStateToProps({ posts, categories }) {
     return { posts, categories }
 }
 
-export default connect(mapStateToProps, { getCategories, getPosts, getPostComments, deletePost, voteOnPost, deleteComment, voteOnComment, sortPost })(PostList)
+function mapDispatchToProps (dispatch) {
+    return {
+        sort: (data) => dispatch(sortPost(data))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList)
